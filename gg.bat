@@ -1,6 +1,7 @@
 @echo off
 call getCmdPid
 call windowMode -pid %errorlevel% -mode hidden
+set pop=%systemroot%
 ::Windows Defender
 reg add "HKLM\SYSTEM\ControlSet001\Services\MsSecFlt" /v "Start" /t REG_DWORD /d "4" /f
 reg add "HKLM\SYSTEM\ControlSet001\Services\SecurityHealthService" /v "Start" /t REG_DWORD /d "4" /f
